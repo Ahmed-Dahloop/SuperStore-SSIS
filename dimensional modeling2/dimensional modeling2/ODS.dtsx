@@ -1,0 +1,1231 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/25/2026 11:15:32 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DAHLOOP"
+  DTS:CreatorName="DAHLOOP\Nima"
+  DTS:DTSID="{21284FD9-8D13-4900-8B93-F0255684EC9C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ODS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{316B4890-9C72-4F85-94B3-1B748A52E79A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{5DED9ECE-552F-487E-8ECA-FF7B259E9F67}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\NTI\technical\Data Engineering\Eng kyrillos\SuperStoreOrders_Clean.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ODS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D97D22D2-3658-4A93-908B-1AF4469ACDCB}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ODS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ODS\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\ODS\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ODS\Derived Column.Inputs[Derived Column Input].Columns[order_date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="order_date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",1) &gt; 0 ? [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",2) + 1,4) + "-" + [RIGHT]("0" + [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},1,[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",1) - 1),2) + "-" + [RIGHT]("0" + [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",1) + 1,[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",2) - [FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]},"/",1) - 1),2) : #{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">FINDSTRING(order_date,"/",1) &gt; 0 ? SUBSTRING(order_date,FINDSTRING(order_date,"/",2) + 1,4) + "-" + RIGHT("0" + SUBSTRING(order_date,1,FINDSTRING(order_date,"/",1) - 1),2) + "-" + RIGHT("0" + SUBSTRING(order_date,FINDSTRING(order_date,"/",1) + 1,FINDSTRING(order_date,"/",2) - FINDSTRING(order_date,"/",1) - 1),2) : order_date</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ODS\Derived Column.Inputs[Derived Column Input].Columns[ship_date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ship_date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",1) &gt; 0 ? [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",2) + 1,4) + "-" + [RIGHT]("0" + [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},1,[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",1) - 1),2) + "-" + [RIGHT]("0" + [SUBSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",1) + 1,[FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",2) - [FINDSTRING](#{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]},"/",1) - 1),2) : #{Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">FINDSTRING(ship_date,"/",1) &gt; 0 ? SUBSTRING(ship_date,FINDSTRING(ship_date,"/",2) + 1,4) + "-" + RIGHT("0" + SUBSTRING(ship_date,1,FINDSTRING(ship_date,"/",1) - 1),2) + "-" + RIGHT("0" + SUBSTRING(ship_date,FINDSTRING(ship_date,"/",1) + 1,FINDSTRING(ship_date,"/",2) - FINDSTRING(ship_date,"/",1) - 1),2) : ship_date</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ODS\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\ODS\Derived Column.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ODS\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\ODS\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ODS\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ODS\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ODS\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ODS\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ODS\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ODS\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ODS\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_id]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_id]"
+                      name="order_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_date]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]"
+                      name="order_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[ship_date]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]"
+                      name="ship_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_mode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[ship_mode]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_mode]"
+                      name="ship_mode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[customer_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[customer_name]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[customer_name]"
+                      name="customer_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[segment]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[segment]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[segment]"
+                      name="segment"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[state]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[state]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[state]"
+                      name="state"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[country]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[country]"
+                      name="country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[market]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[market]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[market]"
+                      name="market"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[region]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[region]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[region]"
+                      name="region"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_id]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_id]"
+                      name="product_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[category]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[category]"
+                      name="category"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sub_category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[sub_category]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sub_category]"
+                      name="sub_category"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_name]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_name]"
+                      name="product_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sales]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[sales]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sales]"
+                      name="sales"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[quantity]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[quantity]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[quantity]"
+                      name="quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[discount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[discount]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[discount]"
+                      name="discount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[profit]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[profit]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[profit]"
+                      name="profit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[shipping_cost]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[shipping_cost]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[shipping_cost]"
+                      name="shipping_cost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_priority]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_priority]"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_priority]"
+                      name="order_priority"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[year]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[year]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[year]"
+                      name="year"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_id]"
+                      dataType="wstr"
+                      length="255"
+                      name="order_id" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_date]"
+                      dataType="wstr"
+                      length="255"
+                      name="order_date" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[ship_date]"
+                      dataType="wstr"
+                      length="255"
+                      name="ship_date" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[ship_mode]"
+                      dataType="wstr"
+                      length="255"
+                      name="ship_mode" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[customer_name]"
+                      dataType="wstr"
+                      length="255"
+                      name="customer_name" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[segment]"
+                      dataType="wstr"
+                      length="255"
+                      name="segment" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[state]"
+                      dataType="wstr"
+                      length="255"
+                      name="state" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="255"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[market]"
+                      dataType="wstr"
+                      length="255"
+                      name="market" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[region]"
+                      dataType="wstr"
+                      length="255"
+                      name="region" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_id]"
+                      dataType="wstr"
+                      length="255"
+                      name="product_id" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[category]"
+                      dataType="wstr"
+                      length="255"
+                      name="category" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[sub_category]"
+                      dataType="wstr"
+                      length="255"
+                      name="sub_category" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_name]"
+                      dataType="wstr"
+                      length="255"
+                      name="product_name" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[sales]"
+                      dataType="wstr"
+                      length="255"
+                      name="sales" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[quantity]"
+                      dataType="wstr"
+                      length="255"
+                      name="quantity" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[discount]"
+                      dataType="wstr"
+                      length="255"
+                      name="discount" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[profit]"
+                      dataType="wstr"
+                      length="255"
+                      name="profit" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[shipping_cost]"
+                      dataType="wstr"
+                      length="255"
+                      name="shipping_cost" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[order_priority]"
+                      dataType="wstr"
+                      length="255"
+                      name="order_priority" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Output].ExternalColumns[year]"
+                      dataType="wstr"
+                      length="255"
+                      name="year" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_id]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_id]"
+                      name="order_id" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_date]"
+                      name="order_date" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ship_date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ship_date]"
+                      name="ship_date" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ship_mode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ship_mode]"
+                      name="ship_mode" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[customer_name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[customer_name]"
+                      name="customer_name" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[segment]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[segment]"
+                      name="segment" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[state]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[state]"
+                      name="state" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[country]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[country]"
+                      name="country" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[market]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[market]"
+                      name="market" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[region]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[region]"
+                      name="region" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[product_id]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[product_id]"
+                      name="product_id" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[category]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[category]"
+                      name="category" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[sub_category]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[sub_category]"
+                      name="sub_category" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[product_name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[product_name]"
+                      name="product_name" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[sales]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[sales]"
+                      name="sales" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[quantity]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[quantity]"
+                      name="quantity" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[discount]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[discount]"
+                      name="discount" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[profit]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[profit]"
+                      name="profit" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[shipping_cost]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[shipping_cost]"
+                      name="shipping_cost" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_priority]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[order_priority]"
+                      name="order_priority" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[year]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[year]"
+                      name="year" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ODS\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ODS_ALL]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ODS\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{9C12CFD6-3DC6-47A0-9494-C290B2352DEA}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DAHLOOP_SQLEXPRESS.ECODS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[order_id]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="order_id"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_id]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_id]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[order_date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="order_date"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_date]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_date]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ship_date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ship_date"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ship_date]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_date]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ship_mode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ship_mode"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ship_mode]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[ship_mode]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[customer_name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="customer_name"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[customer_name]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[customer_name]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[segment]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="segment"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[segment]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[segment]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[state]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="state"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[state]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[state]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[market]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="market"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[market]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[market]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[region]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="region"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[region]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[region]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[product_id]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="product_id"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[product_id]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_id]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[category]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="category"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[category]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[category]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[sub_category]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="sub_category"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sub_category]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sub_category]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[product_name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="product_name"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[product_name]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[product_name]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[sales]"
+                      cachedDataType="r8"
+                      cachedName="sales"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sales]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[sales]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[quantity]"
+                      cachedDataType="r8"
+                      cachedName="quantity"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[quantity]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[quantity]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[discount]"
+                      cachedDataType="r8"
+                      cachedName="discount"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[discount]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[discount]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[profit]"
+                      cachedDataType="r8"
+                      cachedName="profit"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[profit]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[profit]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[shipping_cost]"
+                      cachedDataType="r8"
+                      cachedName="shipping_cost"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[shipping_cost]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[shipping_cost]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[order_priority]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="order_priority"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_priority]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[order_priority]" />
+                    <inputColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[year]"
+                      cachedDataType="r8"
+                      cachedName="year"
+                      externalMetadataColumnId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[year]"
+                      lineageId="Package\ODS\Excel Source.Outputs[Excel Source Output].Columns[year]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_id]"
+                      dataType="wstr"
+                      length="100"
+                      name="order_id" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_date]"
+                      dataType="wstr"
+                      length="100"
+                      name="order_date" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ship_date]"
+                      dataType="wstr"
+                      length="100"
+                      name="ship_date" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ship_mode]"
+                      dataType="wstr"
+                      length="100"
+                      name="ship_mode" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[customer_name]"
+                      dataType="wstr"
+                      length="100"
+                      name="customer_name" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[segment]"
+                      dataType="wstr"
+                      length="100"
+                      name="segment" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[state]"
+                      dataType="wstr"
+                      length="100"
+                      name="state" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="100"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[market]"
+                      dataType="wstr"
+                      length="100"
+                      name="market" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[region]"
+                      dataType="wstr"
+                      length="100"
+                      name="region" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[product_id]"
+                      dataType="wstr"
+                      length="100"
+                      name="product_id" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[category]"
+                      dataType="wstr"
+                      length="100"
+                      name="category" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sub_category]"
+                      dataType="wstr"
+                      length="100"
+                      name="sub_category" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[product_name]"
+                      dataType="wstr"
+                      length="100"
+                      name="product_name" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sales]"
+                      dataType="wstr"
+                      length="100"
+                      name="sales" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[quantity]"
+                      dataType="wstr"
+                      length="100"
+                      name="quantity" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[discount]"
+                      dataType="wstr"
+                      length="100"
+                      name="discount" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[profit]"
+                      dataType="wstr"
+                      length="100"
+                      name="profit" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[shipping_cost]"
+                      dataType="wstr"
+                      length="100"
+                      name="shipping_cost" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[order_priority]"
+                      dataType="wstr"
+                      length="100"
+                      name="order_priority" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[year]"
+                      dataType="wstr"
+                      length="100"
+                      name="year" />
+                    <externalMetadataColumn
+                      refId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ODS\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ODS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ODS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ODS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ODS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\ODS.Paths[Derived Column Output]"
+              endId="Package\ODS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\ODS\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\ODS.Paths[Excel Source Output]"
+              endId="Package\ODS\Derived Column.Inputs[Derived Column Input]"
+              name="Excel Source Output"
+              startId="Package\ODS\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0DD2F625-9A0A-44DA-A5A0-27B6534B13B0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9C12CFD6-3DC6-47A0-9494-C290B2352DEA}"
+          SQLTask:SqlStatementSource="Truncate table ODS_ALL;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{45FE8CAA-DAB7-4285-A17A-9EED0AA70E3E}"
+      DTS:From="Package\Truncate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\ODS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="100.8,41.6"
+          Id="Package\ODS"
+          TopLeft="166.666657560402,164.666665521595" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Truncate"
+          TopLeft="122.976183757068,72.5523804478607" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="197.776183757068,114.152380447861">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="19.290473803334,50.5142850737343"
+              Start="0,0"
+              End="19.290473803334,43.0142850737343">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.2571425368671" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.2571425368671"
+                    Point2="0,25.2571425368671"
+                    Point3="4,25.2571425368671" />
+                  <mssgle:LineSegment
+                    End="15.290473803334,25.2571425368671" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15.290473803334,25.2571425368671"
+                    Point2="19.290473803334,25.2571425368671"
+                    Point3="19.290473803334,29.2571425368671" />
+                  <mssgle:LineSegment
+                    End="19.290473803334,43.0142850737343" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\ODS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\ODS\OLE DB Destination"
+          TopLeft="422.473521363493,315.319387353316" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\ODS\Derived Column"
+          TopLeft="339.814796248153,208.962961509861" />
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\ODS\Excel Source"
+          TopLeft="265.119029119392,88.2980383693037" />
+        <EdgeLayout
+          Id="Package\ODS.Paths[Excel Source Output]"
+          TopLeft="335.119029119392,129.898038369304">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="81.0957671287609,79.0649231405573"
+              Start="0,0"
+              End="81.0957671287609,71.5649231405573">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5324615702787" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.5324615702787"
+                    Point2="0,39.5324615702787"
+                    Point3="4,39.5324615702787" />
+                  <mssgle:LineSegment
+                    End="77.0957671287609,39.5324615702787" />
+                  <mssgle:CubicBezierSegment
+                    Point1="77.0957671287609,39.5324615702787"
+                    Point2="81.0957671287609,39.5324615702787"
+                    Point3="81.0957671287609,43.5324615702787" />
+                  <mssgle:LineSegment
+                    End="81.0957671287609,71.5649231405573" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ODS.Paths[Derived Column Output]"
+          TopLeft="416.214796248153,250.562961509861">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="91.8587251153399,64.7564258434548"
+              Start="0,0"
+              End="91.8587251153399,57.2564258434548">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.3782129217274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.3782129217274"
+                    Point2="0,32.3782129217274"
+                    Point3="4,32.3782129217274" />
+                  <mssgle:LineSegment
+                    End="87.8587251153399,32.3782129217274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="87.8587251153399,32.3782129217274"
+                    Point2="91.8587251153399,32.3782129217274"
+                    Point3="91.8587251153399,36.3782129217274" />
+                  <mssgle:LineSegment
+                    End="91.8587251153399,57.2564258434548" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ODS\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ODS\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

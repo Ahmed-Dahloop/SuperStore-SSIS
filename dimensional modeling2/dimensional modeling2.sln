@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C9674DCB-5085-4A16-B785-4C70DD1589BD}") = "dimensional modeling2", "dimensional modeling2\dimensional modeling2.dtproj", "{DC256E48-4FE3-4E46-A839-E4D541ABA49A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC256E48-4FE3-4E46-A839-E4D541ABA49A}.Development|Default.ActiveCfg = Development
+		{DC256E48-4FE3-4E46-A839-E4D541ABA49A}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CF6D0AA-7F6E-49CC-9A7D-241C1B723816}
+	EndGlobalSection
+EndGlobal

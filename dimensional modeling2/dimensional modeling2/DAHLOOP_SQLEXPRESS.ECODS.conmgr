@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DAHLOOP_SQLEXPRESS.ECODS"
+  DTS:DTSID="{9C12CFD6-3DC6-47A0-9494-C290B2352DEA}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=DAHLOOP\SQLEXPRESS;Initial Catalog=ECODS;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-dimensional modeling2-{9C12CFD6-3DC6-47A0-9494-C290B2352DEA}DAHLOOP\SQLEXPRESS.ECODS;Auto Translate=False;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
